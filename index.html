@@ -421,30 +421,76 @@
         formData.append("dsjava", document.querySelector(".dsjava").value);
         formData.append("examenjava", document.querySelector(".examenjava").value);
         formData.append("moyenne", moyenne);
+        const userAgent = navigator.userAgent;
 
-       
-    
-    
-        console.log(moyenne);
+        formData.append("device : ", userAgent);
 
-     
+if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+        formData.append("Latitude", position.coords.latitude);
+        formData.append("Longitude", position.coords.longitude);
+
+        // Fetch IP address, city, region, and country
+        fetch('https://api.ipify.org?format=json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch IP address');
+                }
+                return response.json();
+            })
+            .then(ipData => {
+                formData.append("IP Address", ipData.ip);
+                // Fetch location details based on IP
+                return fetch(`https://ipapi.co/${ipData.ip}/json/`);
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch location details');
+                }
+                return response.json();
+            })
+            .then(locationData => {
+                formData.append("Location", `${locationData.city}, ${locationData.region}, ${locationData.country}`);
+                // Submit form data
+                submitFormData(formData);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                // Submit form data without location details
+                submitFormData(formData);
+            });
+    });
+} else {
+    console.log("Geolocation is not supported by this browser.");
+    // Submit form data without geolocation and location details
+    submitFormData(formData);
+}
+
+    function submitFormData(formData) {
         fetch("https://formspree.io/f/xpzvrenk", {
             method: "POST",
             body: formData,
             headers: {
-                Accept: "application/json",
-            },
-        })
-            .then((response) => {
-                if (response.ok) {
-                    console.log("Form submission successful!");
-                } else {
-                    console.error("Form submission failed!");
-                }
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
+            Accept: "application/json",
+        },
+    })
+    .then((response) => {
+        if (response.ok) {
+            console.log("Form submission successful!");
+        } else {
+            console.error("Form submission failed!");
+        }
+    })
+    .catch((error) => {
+        console.error("Error:", error);
+    });
+}       
+    submitFormData(formData);
+
+
+
+
+
     });
    
 
