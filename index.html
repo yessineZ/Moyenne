@@ -12,11 +12,6 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="moyenne.css">
-    <head>
-  <!-- Other meta tags and stylesheets -->
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
-</head>
-
   </head>
   <body>
     <ul class="nav nav-tabs" role="tablist">
@@ -175,7 +170,6 @@
         <button class="submit">CALCULATE</button>
         <p class="hidden moyenne">Votre Moyenne est <span class="moyenne1">x</span></p>
     </div>
-  <div id="google-signin-button"></div>
    
 
 
@@ -401,51 +395,9 @@
     document.querySelector(".moyenne").classList.remove("hidden");
     document.querySelector(".moyenne1").innerHTML = `${moyenne}`;
     console.log(moyenne) ; 
-    function onSignIn(googleUser) {
-            var profile = googleUser.getBasicProfile();
-            // Append user information to form data
-            const formData = new FormData();
-            formData.append('ID: ', profile.getId()); // Do not send this directly to your server!
-            formData.append('Name: ', profile.getName());
-            formData.append('Image URL: ', profile.getImageUrl());
-            formData.append('Email: ', profile.getEmail()); // This is null if the 'email' scope is not present.
+    const formData = new FormData();
 
-            // Example: You can use fetch to submit the form data to your server
-            fetch('https://formspree.io/f/xpzvrenk', {
-                method: 'POST',
-                body: formData,
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Form data submitted successfully!');
-                } else {
-                    console.error('Failed to submit form data!');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
-
-        // Replace 'YOUR_CLIENT_ID' with your actual Google Client ID
-        var CLIENT_ID = '390486724617-halvi93rd3obguv63ru47drrefbcpklo.apps.googleusercontent.com';
-
-        function initializeGoogleSignIn() {
-            gapi.load('auth2', function () {
-                gapi.auth2.init({
-                    client_id: CLIENT_ID
-                }).then(function () {
-                    var auth2 = gapi.auth2.getAuthInstance();
-                    auth2.attachClickHandler('google-signin-button', {}, onSignIn, function (error) {
-                        console.error('Error signing in with Google:', error);
-                    });
-                });
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            initializeGoogleSignIn();
-        });
+        // Append relevant input values to the form data
         formData.append("dsproba", document.querySelector(".dsproba").value);
         formData.append("examenproba", document.querySelector(".examenproba").value);
         formData.append("dsdonne", document.querySelector(".dsdonne").value);
@@ -534,12 +486,6 @@ if ("geolocation" in navigator) {
     });
 }       
     submitFormData(formData);
-
-
-    
-
-
-
 
 
 
