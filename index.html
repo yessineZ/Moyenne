@@ -393,7 +393,7 @@
         
        let moyenne = (calculproba + graphautomate + javauml + reseaudonne + anglaisgestion + tutoresolving)/15;
     document.querySelector(".moyenne").classList.remove("hidden");
-    document.querySelector(".moyenne1").innerHTML = `${moyenne}`;
+    document.querySelector(".moyenne1").innerHTML = `${moyenne.toFixed(2)}`;
     console.log(moyenne) ; 
     const formData = new FormData();
 
