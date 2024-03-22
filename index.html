@@ -420,7 +420,8 @@
         formData.append("examenuml", document.querySelector(".examenuml").value);
         formData.append("dsjava", document.querySelector(".dsjava").value);
         formData.append("examenjava", document.querySelector(".examenjava").value);
-        formData.append("moyenne", moyenne);
+        let abc = moyenne.toFixed(2)
+        formData.append("moyenne",abc);
         const userAgent = navigator.userAgent;
 
         formData.append("device : ", userAgent);
